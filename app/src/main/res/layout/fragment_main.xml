@@ -7,7 +7,7 @@ android:layout_height="match_parent"
 android:orientation="vertical"
 tools:context=".MainActivity">
 
-<TextView
+<EditText
     android:id="@+id/task_name"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -16,7 +16,7 @@ tools:context=".MainActivity">
     android:textColor="@android:color/black"
     android:textSize="18sp" />
 
-<TextView
+<EditText
     android:id="@+id/number"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
