@@ -1,18 +1,29 @@
 package com.example.hw10;
 
 import java.util.Random;
+import java.util.UUID;
+
+enum State {
+    Todo, Doing, Done;
+
+    public static State getRandomState() {
+        Random random = new Random();
+        return values()[random.nextInt(values().length)];
+    }
+}
 
 public class Task {
+    private UUID mId;
     private String mName;
     private State mState;
 
-    private enum State {
-        Todo, Doing, Done;
 
-        public static State getRandomState() {
-            Random random = new Random();
-            return values()[random.nextInt(values().length)];
-        }
+    public UUID getId() {
+        return mId;
+    }
+
+    public void setId(UUID id) {
+        mId = id;
     }
 
     public String getName() {

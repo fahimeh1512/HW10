@@ -85,8 +85,9 @@ public class TasksFragment extends Fragment {
         private List<Task> mTasks;
         private Context mContext;
 
-        public TaskAdapter(Context context) {
+        public TaskAdapter(Context context, List<Task> tasks) {
             mContext = context;
+            mTasks = tasks;
         }
 
         @NonNull
