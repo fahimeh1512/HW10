@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -33,31 +34,29 @@ public class TasksFragment extends Fragment {
     private String mTaskName;
     private int mNumber;
 
-    private enum mStates {
-        Todo, Doing, Done;
-
-        public static mStates getRandomState() {
-            Random random = new Random();
-            return values()[random.nextInt(values().length)];
-        }
-    }
-
     public TasksFragment() {
         // Required empty public constructor
     }
 
 
-    public static TasksFragment newInstance() {
-        return new TasksFragment();
+    public static TasksFragment newInstance(String name,int numOfTask) {
+        TasksFragment fragment = new TasksFragment();
+        Bundle args = new Bundle();
+        args.putString("Args_Name",name);
+        args.putInt("Args_number",numOfTask);
+        return fragment;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getArguments() != null){
 
-        mTaskName = Objects.requireNonNull(getActivity()).getIntent().getStringExtra("task_name");
-        mNumber = Integer.parseInt(Objects.requireNonNull(getActivity().getIntent().getStringExtra("number_of_tasks")));
+            mTaskName = getArguments().getString("task_name");
+            mNumber = getArguments().getInt("number_of_tasks");
+        }
+
     }
 
     @Override
@@ -83,6 +82,7 @@ public class TasksFragment extends Fragment {
     }
 
     private class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
+        private List<Task> mTasks;
         private Context mContext;
 
         public TaskAdapter(Context context) {
@@ -127,7 +127,7 @@ public class TasksFragment extends Fragment {
 
         private void bindTask() {
             mHolderName.setText(mTaskName);
-            mHolderState.setText(mStates.getRandomState().toString());
+            //mHolderState.setText(mStates.getRandomState().toString());
         }
     }
 }

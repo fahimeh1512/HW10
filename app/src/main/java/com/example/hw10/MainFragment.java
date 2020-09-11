@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TasksActivity.class);
                 intent.putExtra("task_name", mTaskName.getText());
-                intent.putExtra("number_of_tasks", mNumber.getText());
+                intent.putExtra("number_of_tasks", Integer.parseInt(mNumber.getText().toString()));
                 getActivity().startActivity(intent);
             }
         });

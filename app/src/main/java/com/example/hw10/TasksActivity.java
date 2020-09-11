@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 public class TasksActivity extends AppCompatActivity {
 
+    String mTaskName;
+    int mNumOfTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,8 +18,11 @@ public class TasksActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.tasks_container);
 
+        mTaskName = getIntent().getStringExtra("task_name");
+        mNumOfTask = (getIntent().getIntExtra("number_of_tasks",0));
+
         if (fragment == null) {
-            fragmentManager.beginTransaction().add(R.id.tasks_container, TasksFragment.newInstance()).commit();
+            fragmentManager.beginTransaction().add(R.id.tasks_container, TasksFragment.newInstance(mTaskName,mNumOfTask)).commit();
         }
     }
 }
