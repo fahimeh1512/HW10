@@ -1,22 +1,13 @@
-package com.example.hw10;
+package com.example.hw10.model;
 
-import java.util.Random;
 import java.util.UUID;
 
-enum State {
-    Todo, Doing, Done;
-
-    public static State getRandomState() {
-        Random random = new Random();
-        return values()[random.nextInt(values().length)];
-    }
-}
-
+// Task model
 public class Task {
     private UUID mId;
     private String mName;
     private State mState;
-
+    private int mBackgroundColor;
 
     public UUID getId() {
         return mId;
@@ -40,5 +31,13 @@ public class Task {
 
     public void setState(State state) {
         mState = state;
+    }
+
+    public int getBackgroundColor() {
+        return mBackgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        mBackgroundColor = backgroundColor;
     }
 }

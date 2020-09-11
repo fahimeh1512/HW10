@@ -1,10 +1,13 @@
-package com.example.hw10;
+package com.example.hw10.controller.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+
+import com.example.hw10.controller.fragment.MainFragment;
+import com.example.hw10.R;
 
 public class MainActivity extends AppCompatActivity {
 

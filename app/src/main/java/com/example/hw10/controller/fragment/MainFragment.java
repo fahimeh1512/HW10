@@ -1,6 +1,5 @@
-package com.example.hw10;
+package com.example.hw10.controller.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,13 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.hw10.R;
+import com.example.hw10.controller.activity.TasksActivity;
 
 public class MainFragment extends Fragment {
     private EditText mTaskName;
     private EditText mNumber;
     private Button mMakeButton;
+
+    public static final String EXTRA_TASK_NAME = "com.example.hw10.controller.fragment.task_name";
+    public static final String EXTRA_NUMBER_OF_TASKS = "com.example.hw10.controller.fragment.number_of_tasks";
 
     public MainFragment() {
         // Required empty public constructor
@@ -35,8 +38,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         findViews(view);
-
-        initViews();
+        setListener();
 
         return view;
     }
@@ -47,18 +49,14 @@ public class MainFragment extends Fragment {
         mMakeButton = view.findViewById(R.id.button);
     }
 
-    private void initViews() {
-        mTaskName.setText("Task Name");
-        mNumber.setText("5");
-        setListener();
-    }
     private void setListener() {
         mMakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Starts TasksActivity and send task name and number of tasks to it
                 Intent intent = new Intent(getActivity(), TasksActivity.class);
-                intent.putExtra("task_name", mTaskName.getText());
-                intent.putExtra("number_of_tasks", Integer.parseInt(mNumber.getText().toString()));
+                intent.putExtra(EXTRA_TASK_NAME, mTaskName.getText().toString());
+                intent.putExtra(EXTRA_NUMBER_OF_TASKS, Integer.parseInt(mNumber.getText().toString()));
                 getActivity().startActivity(intent);
             }
         });

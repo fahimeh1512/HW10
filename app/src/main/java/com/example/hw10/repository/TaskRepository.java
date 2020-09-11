@@ -1,4 +1,9 @@
-package com.example.hw10;
+package com.example.hw10.repository;
+
+import android.graphics.Color;
+
+import com.example.hw10.model.State;
+import com.example.hw10.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +24,17 @@ public class TaskRepository implements IRepository {
 
     // Constructor produces tasks list as number of input and the name of input
     private TaskRepository(String taskName, int numberOfTasks) {
-        for (int i = 0; i < numberOfTasks; i++) {
-            mTasks = new ArrayList<>();
+        mTasks = new ArrayList<>();
 
+        for (int i = 0; i < numberOfTasks; i++) {
             Task task = new Task();
             task.setName(taskName);
             task.setState(State.getRandomState());
+            // Defines different colors for even and odd indexes
+            if (i % 2 == 0)
+                task.setBackgroundColor(Color.rgb(181, 214, 182));
+            else
+                task.setBackgroundColor(Color.rgb(207, 161, 161));
 
             mTasks.add(task);
         }

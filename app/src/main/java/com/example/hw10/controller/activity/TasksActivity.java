@@ -1,4 +1,4 @@
-package com.example.hw10;
+package com.example.hw10.controller.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -6,10 +6,15 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import com.example.hw10.R;
+import com.example.hw10.controller.fragment.MainFragment;
+import com.example.hw10.controller.fragment.TasksFragment;
+
 public class TasksActivity extends AppCompatActivity {
 
-    String mTaskName;
-    int mNumOfTask;
+    private String mTaskName;
+    private int mNumOfTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,8 +23,8 @@ public class TasksActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.tasks_container);
 
-        mTaskName = getIntent().getStringExtra("task_name");
-        mNumOfTask = (getIntent().getIntExtra("number_of_tasks",0));
+        mTaskName = getIntent().getStringExtra(MainFragment.EXTRA_TASK_NAME);
+        mNumOfTask = getIntent().getIntExtra(MainFragment.EXTRA_NUMBER_OF_TASKS,0);
 
         if (fragment == null) {
             fragmentManager.beginTransaction().add(R.id.tasks_container, TasksFragment.newInstance(mTaskName,mNumOfTask)).commit();

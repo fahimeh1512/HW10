@@ -1,4 +1,6 @@
-package com.example.hw10;
+package com.example.hw10.repository;
+
+import com.example.hw10.model.Task;
 
 import java.util.List;
 import java.util.UUID;

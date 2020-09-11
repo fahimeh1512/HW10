@@ -1,4 +1,4 @@
-package com.example.hw10;
+package com.example.hw10.controller.fragment;
 
 import android.content.Context;
 import android.os.Build;
@@ -13,23 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import com.example.hw10.R;
+import com.example.hw10.model.Task;
+import com.example.hw10.repository.IRepository;
+import com.example.hw10.repository.TaskRepository;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TasksFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
 public class TasksFragment extends Fragment {
 
     private static final String ARG_TASK_NAME = "task_name";
     private static final String ARG_NUMBER = "number";
 
     private RecyclerView mRecyclerView;
+    private IRepository mRepository;
 
     private String mTaskName;
     private int mNumber;
@@ -38,12 +38,13 @@ public class TasksFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     public static TasksFragment newInstance(String name,int numOfTask) {
-        TasksFragment fragment = new TasksFragment();
         Bundle args = new Bundle();
-        args.putString("Args_Name",name);
-        args.putInt("Args_number",numOfTask);
+        args.putString("ARG_TASK_NAME",name);
+        args.putInt("ARG_NUMBER",numOfTask);
+
+        TasksFragment fragment = new TasksFragment();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -53,8 +54,11 @@ public class TasksFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getArguments() != null){
 
-            mTaskName = getArguments().getString("task_name");
-            mNumber = getArguments().getInt("number_of_tasks");
+            mTaskName = getArguments().getString("ARG_TASK_NAME");
+            mNumber = getArguments().getInt("ARG_NUMBER");
+
+            // Gets instance of repository
+            mRepository = TaskRepository.getInstance(mTaskName, mNumber);
         }
 
     }
@@ -77,7 +81,8 @@ public class TasksFragment extends Fragment {
     private void initViews() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        TaskAdapter taskAdapter = new TaskAdapter(getContext());
+        // Sets adapter
+        TaskAdapter taskAdapter = new TaskAdapter(getContext(), mRepository.getTasks());
         mRecyclerView.setAdapter(taskAdapter);
     }
 
@@ -90,6 +95,7 @@ public class TasksFragment extends Fragment {
             mTasks = tasks;
         }
 
+        // Creates view holder
         @NonNull
         @Override
         public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -98,11 +104,14 @@ public class TasksFragment extends Fragment {
             return new TaskHolder(view);
         }
 
+        // Binds each task to view holder
         @Override
         public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
-            holder.bindTask();
+            Task task = mTasks.get(position);
+            holder.bindTask(task);
         }
 
+        // Gets number of tasks
         @Override
         public int getItemCount() {
             return mNumber;
@@ -114,6 +123,8 @@ public class TasksFragment extends Fragment {
 
         private TextView mHolderName;
         private TextView mHolderState;
+        // Root layout for each task
+        private RelativeLayout mTaskLayout;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -124,11 +135,13 @@ public class TasksFragment extends Fragment {
         private void findViews(View view) {
             mHolderName = view.findViewById(R.id.name);
             mHolderState = view.findViewById(R.id.state);
+            mTaskLayout = view.findViewById(R.id.task_item);
         }
 
-        private void bindTask() {
-            mHolderName.setText(mTaskName);
-            //mHolderState.setText(mStates.getRandomState().toString());
+        private void bindTask(Task task) {
+            mHolderName.setText(task.getName());
+            mHolderState.setText(task.getState().toString());
+            mTaskLayout.setBackgroundColor(task.getBackgroundColor());
         }
     }
 }
